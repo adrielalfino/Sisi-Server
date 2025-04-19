@@ -1,0 +1,22 @@
+version: "3.8"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000" # Menghubungkan port container ke port lokal
+    volumes:
+      - .:/app # Menyinkronkan file lokal ke container
+      - /app/node_modules # Memastikan node_modules tidak di-overwrite
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo:6.0
+    container_name: mongodb
+    ports:
+      - "27017:27017" # Port MongoDB
+    volumes:
+      - mongo-data:/data/db
+volumes:
+  mongo-data:
